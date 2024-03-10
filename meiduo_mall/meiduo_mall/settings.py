@@ -147,3 +147,65 @@ CACHES = {
 }
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 SESSION_CACHE_ALIAS = 'session'
+
+
+# logging
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {
+            "format": "{levelname} {asctime} {module} {process:d} {thread:d} {message}",
+            "style": "{",
+        },
+        "simple": {
+            "format": "{levelname} {message}",
+            "style": "{",
+        },
+    },
+    "filters": {
+        "special": {
+            # "()": "project.logging.SpecialFilter",
+            "foo": "bar",
+        },
+        "require_debug_true": {
+            "()": "django.utils.log.RequireDebugTrue",
+        },
+    },
+    "handlers": {
+        "console": {
+            "level": "INFO",
+            "filters": ["require_debug_true"],
+            "class": "logging.StreamHandler",
+            "formatter": "simple",
+        },
+        "mail_admins": {
+            "level": "ERROR",
+            "class": "django.utils.log.AdminEmailHandler",
+            "filters": ["special"],
+        },
+        "file_handler": {
+            "level": "ERROR",
+            "class": "logging.FileHandler",
+            "filename": BASE_DIR / 'meiduo_log'/ 'meiduo_logfile.log',  # 替换为您的日志文件路径
+            "formatter": "verbose",
+            "filters": ["require_debug_true"],
+        },
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["console"],
+            "propagate": True,
+        },
+        "django.request": {
+            "handlers": ["mail_admins"],
+            "level": "ERROR",
+            "propagate": False,
+        },
+        "myproject.custom": {
+            "handlers": ["console", "mail_admins"],
+            "level": "INFO",
+            "filters": ["special"],
+        },
+    },
+}
