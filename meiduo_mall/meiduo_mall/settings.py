@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-+1n^=cz*e4c7qgwo+h_@pg4=3yqrxn)nu05!a8!($7i+sw@i7w
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['www.meiduo.site', '127.0.0.1']
+ALLOWED_HOSTS = ['www.meiduo.site', '127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -210,3 +210,6 @@ LOGGING = {
         },
     },
 }
+
+# 用自定义user模型覆盖默认user模型
+AUTH_USER_MODEL = 'users.User'
